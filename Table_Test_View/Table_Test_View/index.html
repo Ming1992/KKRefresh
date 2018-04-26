@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>jsCallNative</title>
+        <script type="text/javascript">
+            
+            function appShareResult(result) {
+                var obj = JSON.parse(result);
+                if(obj.result==1){
+                    alert('分享成功');
+                }else{
+                    alert('分享失败');
+                }
+            }
+        
+        function test()
+        {
+            alert("test alert...");
+            return "abcd";
+        }
+        
+            //判断平台是ios还是android,ios和android调用本地方法的方式不一致，所有判断一下分开调用
+            
+            var browser=function(){ //只是一个判断平台的方法，无关紧要
+                var u = navigator.userAgent;
+                return {
+                    ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                                   android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                                   iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                                   iPad: u.indexOf('iPad') > -1, //是否iPad
+                                   };
+                                   
+                                   }();
+                                   
+                                   
+                                   function clickNative() {
+                                   var obj = new Object();
+                                   obj.action = 0x1;   // 类型：目前 0x1——代表启动点击者头像的跳转对方详情页面，后续如果有扩展再说
+                                   obj.params = new Object(); //用于放置参数
+                                   obj.params.qq ="992036795"; //用户的QQ号，目前只需要QQ好就可以了，以后如果有扩展的话，就在params里面添加好了
+                                   
+                                   var json = JSON.stringify(obj);
+                                   
+                                   if(browser.ios || browser.iPhone || browser.iPad){
+                                   // ios
+                                   window.location.href="IOS://"+json
+                                   }else if(browser.android){
+                                   //开始调用android native代码,NativeInterface是android自定义的类名，call是该类中的方法
+                                   window.NativeInterface.call(json);
+                                   
+                                   }
+                                   }
+                                   </script>
+    </head>
+    <body>
+        <h1>本例子是点击按钮调用Native代码</h1>
+        <input type="button" name="" value="点击调用" onclick="javascript:clickNative()"/>
+        
+    </body>
+</html>
