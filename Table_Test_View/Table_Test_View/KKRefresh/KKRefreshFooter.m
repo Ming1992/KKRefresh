@@ -37,6 +37,10 @@
     
     if (self.state != KKRefreshStateNormal || CGRectGetMinY(self.frame) == 0) return;
     
+    if (!self.scrollView.isDragging) {
+        return;
+    }
+    
     if (self.scrollView.contentInset.top + self.scrollView.contentSize.height > CGRectGetHeight(self.scrollView.bounds)) { // 内容超过一个屏幕
         // 这里的_scrollView.mj_contentH替换掉self.mj_y更为合理
         if (self.scrollView.contentOffset.y >= self.scrollView.contentSize.height - CGRectGetHeight(self.scrollView.bounds) + CGRectGetHeight(self.bounds) + self.scrollView.contentInset.bottom - + CGRectGetHeight(self.bounds)) {
@@ -97,6 +101,24 @@
         }];
     }
 }
+
+#pragma mark - 公共方法
+- (void)kk_endRefreshing
+{
+    if ([self.scrollView isKindOfClass:[UICollectionView class]]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [super kk_endRefreshing];
+        });
+    } else {
+        [super kk_endRefreshing];
+    }
+}
+
+- (void)setNoMoreData:(BOOL)noMoreData {
+    self.state = noMoreData ? KKRefreshStateNoMoreData : KKRefreshStateNormal;
+}
+
+
 @end
 
 #pragma mark - KKRefreshNormalFooter methods
@@ -151,5 +173,6 @@
         [self.loadingActivity stopAnimating];
     }
 }
+
 
 @end

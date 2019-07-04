@@ -11,6 +11,7 @@
 @interface KKRefreshFooter : KKRefreshComponent
 
 @property (nonatomic, assign) BOOL autoHidden;
+@property (nonatomic, assign) BOOL noMoreData;
 
 + (instancetype)footerWithRefreshingBlock:(KKRefreshComponentRefreshingBlock)refreshingBlock;
 @end
@@ -20,4 +21,5 @@
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivity;
 @property (nonatomic, strong) UILabel *updateTipsLabel;
+
 @end

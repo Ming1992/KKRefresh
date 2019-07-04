@@ -100,22 +100,6 @@
         //  当前scrollView处于减速状态,并且拖拽的高度小于当前刷新header的高度
         [self kk_beginRefreshing];
     }
-    
-    
-//    if (self.scrollView.isDragging) { // 如果正在拖拽
-//        if (self.state == KKRefreshStateNormal && offsetY < normal2pullingOffsetY) {
-//            // 转为即将刷新状态
-//            self.state = KKRefreshStatePulling;
-//        } else if (self.state == KKRefreshStatePulling && offsetY >= normal2pullingOffsetY) {
-//            // 转为普通状态
-//            self.state = KKRefreshStateNormal;
-//        }
-//    } else if (self.state == KKRefreshStatePulling) {// 即将刷新 && 手松开
-//        // 开始刷新
-//        [self kk_beginRefreshing];
-//    } else if (pullingPercent < 1) {
-////        self.pullingPercent = pullingPercent;
-//    }
 }
 
 - (void)setState:(KKRefreshState)state{

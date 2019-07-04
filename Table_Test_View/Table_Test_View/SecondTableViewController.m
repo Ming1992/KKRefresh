@@ -62,11 +62,17 @@
     self.dataCount = 40;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView.kk_footer setNoMoreData: false];
         [self.tableView.kk_header kk_endRefreshing];
     });
 }
 
 - (void)footer_event{
+    
+    if (self.dataCount > 60) {
+        [self.tableView.kk_footer setNoMoreData: true];
+        return;
+    }
     
     self.dataCount += 20;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
